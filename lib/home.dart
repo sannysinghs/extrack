@@ -52,14 +52,24 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
+  double _loadTotalBalance() {
+    var balance = 0.0;
+    _userTransactions.forEach((e) {
+      balance += e.amount;
+    });
+    return balance;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: CustomScrollView(
         slivers: [
           SliverList(
-              delegate: SliverChildListDelegate(
-                  <Widget>[CustomAppBar(), WalletBar()])),
+              delegate: SliverChildListDelegate(<Widget>[
+            CustomAppBar(),
+            WalletBar(totalBalance: _loadTotalBalance()),
+          ])),
           SliverList(
               delegate: SliverChildListDelegate(<Widget>[
             Visibility(

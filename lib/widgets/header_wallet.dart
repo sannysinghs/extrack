@@ -3,6 +3,10 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class WalletBar extends StatefulWidget {
+  final double totalBalance;
+
+  WalletBar({this.totalBalance});
+
   @override
   _WalletBartState createState() => _WalletBartState();
 }
@@ -52,7 +56,7 @@ class _WalletBartState extends State<WalletBar> {
                       fontFamily: 'Sanomat'),
                 ),
                 Text(
-                  "3790.50",
+                  "${widget.totalBalance}",
                   style: TextStyle(
                       color: Color(0xFF1C1C1C),
                       fontSize: 18,
