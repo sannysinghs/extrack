@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_complete_guide/transactions_repo.dart';
 
 import 'home.dart';
 
@@ -14,7 +15,7 @@ class MyApp extends StatelessWidget {
         fontFamily: 'Sanomat',
         textTheme: ThemeData.light().textTheme,
       ),
-      home: MyHomePage(),
+      home: MyHomePage(repo: SharedPrefTransactionsRepo()),
     );
   }
 }

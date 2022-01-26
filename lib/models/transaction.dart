@@ -15,4 +15,20 @@ class Transaction {
     String label,
     this.isIncoming = false,
   });
+
+
+  factory Transaction.fromJson(Map<String, dynamic> json) => Transaction(
+      id: json['id'],
+      title: json['title'],
+      amount: json['amount'],
+      date: DateTime.now());
+
+  Map<String, dynamic> toJson() => {
+    "id" : id,
+    "title": title,
+    "amount": amount,
+    "date": date.toString(),
+    "label" : "",
+    "isIncoming": false
+  };
 }

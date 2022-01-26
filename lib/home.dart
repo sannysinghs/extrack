@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
 import 'package:flutter_complete_guide/main.dart';
+import 'package:flutter_complete_guide/transactions_repo.dart';
 import 'package:flutter_complete_guide/widgets/custom_appbar.dart';
 import 'package:flutter_complete_guide/widgets/header_wallet.dart';
 import 'package:flutter_complete_guide/widgets/new_transaction.dart';
@@ -9,12 +10,15 @@ import 'package:flutter_complete_guide/widgets/transaction_record.dart';
 import 'models/transaction.dart';
 
 class MyHomePage extends StatefulWidget {
+  final TransactionsRepo repo;
+  MyHomePage({this.repo});
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  final List<Transaction> _userTransactions = [];
+  List<Transaction> _userTransactions = [];
 
   void _addNewTransaction(
     String txTitle,
@@ -31,6 +35,8 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       _userTransactions.add(newTx);
     });
+
+    widget.repo.saveTransactions(_userTransactions);
   }
 
   void _startAddNewTransaction(BuildContext ctx) {
@@ -49,6 +55,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void _deleteTransaction(String id) {
     setState(() {
       _userTransactions.removeWhere((tx) => tx.id == id);
+      widget.repo.saveTransactions(_userTransactions);
     });
   }
 
@@ -58,6 +65,17 @@ class _MyHomePageState extends State<MyHomePage> {
       balance += e.amount;
     });
     return balance;
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    widget.repo.loadTransactions().then((value) {
+        setState(() {
+          _userTransactions.clear();
+          _userTransactions.addAll(value);
+        });
+    });
   }
 
   @override
